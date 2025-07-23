@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Install app dependencies
 COPY package*.json ./
-RUN npm install
+RUN npm install express puppeteer uuid body-parser
 
 # Bundle app source
 COPY . .
