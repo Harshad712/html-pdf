@@ -26,6 +26,9 @@ RUN apt-get update && apt-get install -y \
 # Create app directory
 WORKDIR /app
 
+# Set env before npm install to skip Chromium download
+ENV PUPPETEER_SKIP_DOWNLOAD=true
+
 # Copy app dependencies
 COPY package*.json ./
 RUN npm install
