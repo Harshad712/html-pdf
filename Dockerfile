@@ -1,10 +1,12 @@
 FROM node:20
 
-# Install Chromium and dependencies
+# Install Chromium and system dependencies + fonts
 RUN apt-get update && apt-get install -y \
     chromium \
     ca-certificates \
     fonts-liberation \
+    fonts-roboto \
+    fonts-noto \
     libappindicator3-1 \
     libasound2 \
     libatk-bridge2.0-0 \
@@ -19,24 +21,25 @@ RUN apt-get update && apt-get install -y \
     libxdamage1 \
     libxrandr2 \
     xdg-utils \
+    fontconfig \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
-# Set the Puppeteer executable path to Chromium
+# Set Puppeteer executable path to use installed Chromium
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
-# Create app directory
+# Set working directory
 WORKDIR /app
 
-# Copy and install dependencies
+# Install app dependencies
 COPY package*.json ./
 RUN npm install
 
 # Copy app source
 COPY . .
 
-# Expose app port
+# Expose port
 EXPOSE 3000
 
-# Start server
+# Start the server
 CMD ["npm", "start"]
